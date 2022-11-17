@@ -19,7 +19,3 @@ EXPOSE 8080
 
 # start app
 CMD ["npm", "start"]
-
-# command for build and run
-# docker build -t item-app .
-# docker run -dp 8080:8080 --name item-app --network item-app item-app

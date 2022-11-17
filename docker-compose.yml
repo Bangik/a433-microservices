@@ -1,0 +1,27 @@
+version: "3.7"
+
+services:
+  item-db:
+    # use mongodb 3 from docker hub
+    image: mongo:3
+    # use volume app-db
+    volumes:
+      - app-db:/data/db
+    # restart policy
+    restart: always
+  
+  item-app:
+    # image item-app from github package
+    image: ghcr.io/bangik/a433-microservices/item-app:v1
+    # expose port 8080 to host
+    ports:
+      - 80:8080
+    # depends on item-db
+    depends_on:
+      - item-db
+    # restart policy
+    restart: always
+
+volumes:
+  # volume app-db
+  app-db:
