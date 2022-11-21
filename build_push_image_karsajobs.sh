@@ -10,7 +10,7 @@ docker images
 docker tag karsajobs:latest ghcr.io/bangik/a433-microservices/karsajobs:latest
 
 # login to github packages
-echo ${{secrets.TOKEN_GITHUB}} | docker login ghcr.io -u bangik --password-stdin
+echo $TOKEN_GITHUB | docker login ghcr.io -u bangik --password-stdin
 
 # push image to github packages
 docker push ghcr.io/bangik/a433-microservices/karsajobs:latest
