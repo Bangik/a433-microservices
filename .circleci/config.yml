@@ -33,7 +33,7 @@ jobs:
       # run build and push docker image
       - run:
           name: Build and push Docker image
-          command: sh build_push_image_karsajobs.sh
+          command: sh build_push_image_karsajobs_ui.sh
 
 # Invoke jobs via workflows.
 workflows:
