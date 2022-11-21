@@ -1,0 +1,88 @@
+# Use the latest 2.1 version of CircleCI pipeline process engine.
+version: 2.1
+
+# Define a job to be invoked later in a workflow.
+jobs:
+  # install hadolint job
+  lint-dockerfile:
+    # use docker executor
+    docker:
+      # Specify the docker image to use for the primary container
+      - image: hadolint/hadolint:latest-alpine
+    # Specify the steps to run
+    steps:
+      # checkout the code
+      - checkout
+      # run hadolint
+      - run:
+          name: Run Dockerfile
+          command: hadolint Dockerfile
+
+  # unit test job
+  test-app:
+    # define working directory
+    working_directory: ~/app
+    # use docker executor
+    docker:
+      # Specify the docker image to use for the primary container
+      - image: golang:1.15-alpine
+    # Specify the steps to run
+    steps:
+      # checkout the code
+      - checkout
+      # run install dependencies
+      - run:
+          name: Install dependencies
+          command: apk add build-base
+      # run unit test
+      - run:
+          name: Run tests
+          command: go test -v -short --count=1 $(go list ./...)
+  
+  # build job
+  build-app-karsajobs:
+    # use machine executor
+    machine:
+      # Specify the machine image to use for the primary container
+      image: ubuntu-1604:201903-01
+      # docker layer caching set to true for faster builds
+      docker_layer_caching: true
+    # Specify the steps to run
+    steps:
+      # checkout the code
+      - checkout
+      # run build and push docker image
+      - run:
+          name: Build and push Docker image
+          command: ./build_push_image_karsajobs.sh
+
+# Invoke jobs via workflows.
+workflows:
+  # Define a workflow name 
+  ci-backend-workflow:
+    # Specify the jobs to run in the workflow
+    jobs:
+      # run lint dockerfile job
+      - lint-dockerfile
+          # filter the branch only for karsajobs
+          filters:
+            branches:
+              only:
+                - karsajobs
+      # run unit test job
+      - test-app
+          # require lint dockerfile job to be success
+          requires:
+            - lint-dockerfile
+          # filter the branch only for karsajobs
+          filters:
+            branches:
+              only:
+                - karsajobs
+      # run build job
+      - build-app-karsajobs
+          # filter the branch only for karsajobs
+          filters:
+            branches:
+              only:
+                - karsajobs
