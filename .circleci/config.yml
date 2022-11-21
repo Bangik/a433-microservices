@@ -63,14 +63,14 @@ workflows:
     # Specify the jobs to run in the workflow
     jobs:
       # run lint dockerfile job
-      - lint-dockerfile
+      - lint-dockerfile:
           # filter the branch only for karsajobs
           filters:
             branches:
               only:
                 - karsajobs
       # run unit test job
-      - test-app
+      - test-app:
           # require lint dockerfile job to be success
           requires:
             - lint-dockerfile
@@ -80,7 +80,7 @@ workflows:
               only:
                 - karsajobs
       # run build job
-      - build-app-karsajobs
+      - build-app-karsajobs:
           # filter the branch only for karsajobs
           filters:
             branches:
