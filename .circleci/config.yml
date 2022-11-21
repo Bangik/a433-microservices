@@ -44,7 +44,7 @@ jobs:
     # use machine executor
     machine:
       # Specify the machine image to use for the primary container
-      image: ubuntu-1604:201903-01
+      image: ubuntu-2004:current
       # docker layer caching set to true for faster builds
       docker_layer_caching: true
     # Specify the steps to run
