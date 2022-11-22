@@ -1,0 +1,50 @@
+# set api version
+apiVersion: apps/v1
+# set kind
+kind: Deployment
+# set metadata
+metadata:
+  # set labels
+  labels:
+    app: karsajobs
+  # set name
+  name: karsajobs
+# set spec
+spec:
+  # use 3 replicas
+  replicas: 3
+  # set selector with match labels
+  selector:
+    matchLabels:
+      app: karsajobs
+  # set template with metadata and spec
+  template:
+    # set metadata with labels
+    metadata:
+      labels:
+        app: karsajobs
+    # set spec with containers
+    spec:
+      containers:
+        # pull image from github container registry
+        - name: karsajobs
+          image: ghcr.io/bangik/a433-microservices/karsajobs:latest
+          # set ports to 8080
+          ports:
+            - containerPort: 8080
+          # set env variables for database connection
+          env:
+            - name: APP_PORT
+              value: "8080"
+            - name: MONGO_HOST
+              value: "mongo"
+            - name: MONGO_USER
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-secret
+                  key: MONGO_ROOT_USERNAME
+            - name: MONGO_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-secret
+                  key: MONGO_ROOT_PASSWORD

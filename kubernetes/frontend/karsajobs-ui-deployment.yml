@@ -1,0 +1,33 @@
+# define api version
+apiVersion: apps/v1
+# define kind
+kind: Deployment
+# define metadata
+metadata:
+  # define labels
+  labels:
+    app: karsajobs-ui
+  # define name
+  name: karsajobs-ui
+# define spec
+spec:
+  # use 3 replicas
+  replicas: 3
+  # define selector with match labels
+  selector:
+    matchLabels:
+      app: karsajobs-ui
+  # define template with metadata and spec
+  template:
+    metadata:
+      labels:
+        app: karsajobs-ui
+    # define spec with containers
+    spec:
+      containers:
+        # pull image from github container registry
+        - name: karsajobs-ui
+          image: ghcr.io/bangik/a433-microservices/karsajobs-ui:latest
+          # set ports to 8000
+          ports:
+            - containerPort: 8000

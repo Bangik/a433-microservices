@@ -1,0 +1,21 @@
+# define api version
+apiVersion: v1
+# define kind
+kind: Service
+# define metadata
+metadata:
+  # define labels
+  labels:
+    app: mongo
+  # define name
+  name: mongo
+# define spec
+spec:
+  # define selector with match labels
+  selector:
+    app: mongo
+    tier: backend
+  # define ports with port 27017 and clusterIP None
+  ports:
+    - port: 27017
+  clusterIP: None

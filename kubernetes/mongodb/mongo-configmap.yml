@@ -1,0 +1,12 @@
+# define api version
+apiVersion: v1
+# define kind
+kind: ConfigMap
+# define metadata
+metadata:
+  name: mongo-config
+# define data with config which has storage property with dbPath and value /data/db
+data:
+  mongo.conf: |
+    storage:
+      dbPath: /data/db

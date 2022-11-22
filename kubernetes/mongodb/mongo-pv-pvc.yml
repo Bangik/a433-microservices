@@ -1,0 +1,43 @@
+# define api version
+apiVersion: v1
+# define kind
+kind: PersistentVolume
+# define metadata
+metadata:
+  # define labels
+  labels:
+    type: local
+  # define name
+  name: mongo-pv
+# define spec
+spec:
+  # define storage name and capacity of 1Gi and access mode of ReadWriteOnce with hostPath of /data/mongo
+  storageClassName: manual
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/data/mongo"
+
+---
+# define api version
+apiVersion: v1
+# define kind
+kind: PersistentVolumeClaim
+# define metadata
+metadata:
+  # define labels
+  labels:
+    app: mongo
+  # define name of mongo-pvc
+  name: mongo-pv-claim
+spec:
+  # define storage class name and access mode of ReadWriteOnce
+  storageClassName: manual
+  accessModes:
+    - ReadWriteOnce
+  # define resources with requests of storage of 1Gi
+  resources:
+    requests:
+      storage: 1Gi

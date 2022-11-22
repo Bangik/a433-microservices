@@ -1,0 +1,22 @@
+# define api version
+apiVersion: v1
+# define kind
+kind: Service
+# define metadata
+metadata:
+  # define labels
+  labels:
+    app: karsajobs-ui
+  # define name
+  name: karsajobs-ui
+# define spec
+spec:
+  # define ports
+  ports:
+  - port: 8000
+    targetPort: 8000
+    nodePort: 30081
+  type: NodePort
+  # define selector
+  selector:
+    app: karsajobs-ui
